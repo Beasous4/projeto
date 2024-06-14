@@ -1,0 +1,111 @@
+Package model;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TransacoesApp extends JFrame {
+
+    private static final long serialVersionUID = 1L;
+
+    private JList<Transacao> transacoesList;
+    private DefaultListModel<Transacao> transacoesModel;
+    private JButton buscarButton;
+    private JTextField buscaTextField;
+    private List<Transacao> todasTransacoes;
+
+    public TransacoesApp() {
+        super("Transações");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
+        setLocationRelativeTo(null);
+
+        todasTransacoes = new ArrayList<>();
+        todasTransacoes.add(new Transacao("Pagamento Efetuado", "InstPagamentos S.A", "R$ 1.270,23", "20 Mar"));
+        todasTransacoes.add(new Transacao("Transferência Enviada", "Vicente Apolinario", "R$ 833,26", "17 Mar"));
+        todasTransacoes.add(new Transacao("Pagamento Efetuado", "Conta Internet", "R$ 255,56", "15 Mar"));
+        todasTransacoes.add(new Transacao("Transferência Recebida", "TechAdvance S.A", "R$ 5.465,65", "15 Mar"));
+        todasTransacoes.add(new Transacao("Transferência Enviada", "IFood", "R$ 189,61", "12 Mar"));
+
+        // Cria o modelo da lista de transações
+        transacoesModel = new DefaultListModel<>();
+        todasTransacoes.forEach(transacoesModel::addElement);
+
+        // Cria a lista de transações
+        transacoesList = new JList<>(transacoesModel);
+        transacoesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Cria o campo de busca
+        buscaTextField = new JTextField();
+        
+        // Cria o botão de busca
+        buscarButton = new JButton("Buscar");
+        buscarButton.addActionListener(e -> buscarTransacoes());
+
+        // Adiciona os componentes ao layout
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.add(new JScrollPane(transacoesList), BorderLayout.CENTER);
+
+        JPanel buscaPanel = new JPanel(new BorderLayout());
+        buscaPanel.add(buscaTextField, BorderLayout.CENTER);
+        buscaPanel.add(buscarButton, BorderLayout.EAST);
+        contentPane.add(buscaPanel, BorderLayout.NORTH);
+
+        add(contentPane);
+        setVisible(true);
+    }
+
+    private void buscarTransacoes() {
+        String criterio = buscaTextField.getText().toLowerCase();
+        transacoesModel.clear();
+        for (Transacao transacao : todasTransacoes) {
+            if (transacao.getTipo().toLowerCase().contains(criterio) ||
+                transacao.getDescricao().toLowerCase().contains(criterio) ||
+                transacao.getValor().toLowerCase().contains(criterio) ||
+                transacao.getData().toLowerCase().contains(criterio)) {
+                transacoesModel.addElement(transacao);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(TransacoesApp::new);
+    }
+}
+
+class Transacao {
+    private String tipo;
+    private String descricao;
+    private String valor;
+    private String data;
+
+    public Transacao(String tipo, String descricao, String valor, String data) {
+        this.tipo = tipo;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.data = data;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        return tipo + " - " + descricao + " - " + valor + " - " + data;
+    }
+}
