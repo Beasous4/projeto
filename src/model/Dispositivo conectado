@@ -1,0 +1,51 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class DispositivosConectados extends JFrame {
+
+    private JLabel titleLabel;
+    private JLabel connectedDevicesLabel;
+    private JButton disconnectButton;
+    private JPanel devicePanel;
+    private JLabel deviceLabel;
+
+    public DispositivosConectados() {
+        super("Dispositivos Conectados");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        titleLabel = new JLabel("DISPOSITIVOS CONECTADOS");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
+
+        connectedDevicesLabel = new JLabel("Sua conta foi conectada nos seguintes dispositivos:");
+        connectedDevicesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(connectedDevicesLabel, BorderLayout.CENTER);
+
+        devicePanel = new JPanel();
+        devicePanel.setLayout(new GridLayout(2, 1));
+        deviceLabel = new JLabel("Samsung A25\nSão Paulo, São Paulo");
+        deviceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        devicePanel.add(deviceLabel);
+        add(devicePanel, BorderLayout.WEST);
+
+        disconnectButton = new JButton("DESCONECTAR DISPOSITIVO");
+        disconnectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implementar a lógica para desconectar o dispositivo
+            }
+        });
+        add(disconnectButton, BorderLayout.SOUTH);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new DispositivosConectados();
+    }
+}
